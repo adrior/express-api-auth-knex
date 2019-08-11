@@ -4,7 +4,7 @@ exports.up = function(knex) {
     t.string("post_id");
     t.string("user_id");
     t.string("size");
-    t.string("tipe");
+    t.string("type");
     t.timestamp("create_date").default(knex.fn.now());
     t.timestamp("update_date").default(knex.fn.now());
   });

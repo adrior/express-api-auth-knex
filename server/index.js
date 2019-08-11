@@ -1,17 +1,17 @@
+const port = process.env.PORT || 3000;
 const express = require("express");
 const app = express();
-const port = process.env.PORT || 3000;
-
-const session = require("express-session");
 const upload = require("multer")({ dest: "uploads/" });
+const knex = require("knex")(require("../knexfile.js"));
 
+// Compression
 const compression = require("compression");
 app.use(compression());
 
-const knex = require("knex")(require("../knexfile.js"));
+// Sessions
+const session = require("express-session");
 const KnexSessionStore = require("connect-session-knex")(session);
 const KnexSession = new KnexSessionStore({ knex });
-
 app.use(
   session({
     secret: "julia--00k88#%-aadfr92940",
@@ -19,6 +19,14 @@ app.use(
     store: KnexSession
   })
 );
+
+// Users
+const userRouter = require("./user.js");
+app.use("/users/", userRouter);
+
+// Posts
+const postRouter = require("./post.js");
+app.use("/posts/", postRouter);
 
 app.post("/submit", upload.single("homework"), (req, res, next) => {
   console.log(req.file);
@@ -34,4 +42,5 @@ app.get("/api/", (req, res) => {
 
 app.use(express.static("public"));
 
+console.clear();
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));

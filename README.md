@@ -6,17 +6,19 @@ Boilerplate for api with sessions, knex and passport auth
 
 ## USER
 
-POST /user/
-GET /user/:id/
-PATCH /user/:id/
-DELETE /user/:id/
+POST /users/
+GET /users/
+GET /users/:id/
+PATCH /users/:id/
+DELETE /users/:id/
 
 ## POST
 
-POST /post/
-GET /post/:id/
-PATCH /post/:id/
-DELETE /post/:id/
+POST /posts/
+GET /posts/
+GET /posts/:id/
+PATCH /posts/:id/
+DELETE /posts/:id/
 
 # DB SCHEME
 
