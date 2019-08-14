@@ -1,6 +1,9 @@
 # DB
 dev.sqlite3
 
+# Uploads
+uploads/*
+
 # Logs
 logs
 *.log
