@@ -5,11 +5,24 @@ const upload = require("multer")({ dest: "uploads/" });
 const createUser = (data, next) => {
   // Using trx as a query builder:
   knex
-    .transaction(function(trx) {
-      return trx
-        .insert({ username: data.username, display_name: data.display_name })
-        .into("user");
-    })
+    .transaction(trx =>
+      trx("user")
+        .where({ username: data.username })
+        .then(res => {
+          if (res.length === 0) {
+            return trx
+              .insert({
+                username: data.username,
+                display_name: data.display_name
+              })
+              .into("user");
+          } else {
+            return trx("user")
+              .where({ username: data.username })
+              .update({ display_name: data.display_name });
+          }
+        })
+    )
     .then(function(inserts) {
       next({ messenge: "User added", error: null });
     })
@@ -32,7 +45,7 @@ router
       {
         username: req.body.username,
         display_name: req.body.display_name,
-        fileType: req.file.mimetype
+        file_type: req.file.mimetype
       },
       data => {
         res.json(data);
